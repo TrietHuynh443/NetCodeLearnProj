@@ -31,7 +31,7 @@ public class HelloWorldPlayer : NetworkBehaviour
         SendUpdatePositionToServerRpc(_horizontal ,_vertical, NetworkObjectId);
     }
 
-    [Rpc(SendTo.Server)]
+    [Rpc(SendTo.Everyone)]
     private void SendUpdatePositionToServerRpc(Vector3 horizontal, Vector3 vertical, ulong clientId) //E
     {
         if (NetworkObjectId == clientId)
