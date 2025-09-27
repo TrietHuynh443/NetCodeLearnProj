@@ -1,12 +1,15 @@
 using System;
+using TMPro;
 using Unity.Netcode;
 using UnityEngine;
 
 public class HelloWorldPlayer : NetworkBehaviour
 {
+    [SerializeField] private TextMeshProUGUI _playerNameUI;
     private Vector3 _horizontal;
     private Vector3 _vertical;
     private bool _isNetworkSpawned = false;
+    
     private void Update()
     {
         if(!IsOwner || IsServer || !_isNetworkSpawned) return;
@@ -17,6 +20,7 @@ public class HelloWorldPlayer : NetworkBehaviour
     {
         base.OnNetworkSpawn();
         _isNetworkSpawned = true;
+        _playerNameUI.text = $"Player {NetworkObjectId.ToString()}";
     }
 
     private void HandleInput()
@@ -28,9 +32,8 @@ public class HelloWorldPlayer : NetworkBehaviour
     }
 
     [Rpc(SendTo.Server)]
-    private void SendUpdatePositionToServerRpc(Vector3 horizontal, Vector3 vertical, ulong clientId)
+    private void SendUpdatePositionToServerRpc(Vector3 horizontal, Vector3 vertical, ulong clientId) //E
     {
-        Debug.Log($"Send Update Position To Server From {clientId}");
         if (NetworkObjectId == clientId)
         {
             _horizontal = horizontal;
